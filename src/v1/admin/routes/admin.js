@@ -7,9 +7,10 @@ const CategoryController = require('../../admin/Controllers/categorycontroller')
 const SubcategoryController = require('../../admin/Controllers/subcategorycontroller')
 const BrandController = require('../../admin/Controllers/brandcontroller')
 const ProductController= require('../../admin/Controllers/productcontroller')
+const AdminController= require('../Controllers/admincontroller')
 const upload = require('../middleware/multer')
 
-
+router.post ('/login',AdminController.login);
 router.post('/insert-category', upload.single("image"), CategoryController.insertcategory)
 router.post('/update-category', upload.single("image"), CategoryController.updatecategory)
 router.post('/delete-category', CategoryController.deletecategory)
