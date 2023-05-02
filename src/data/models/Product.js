@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const { SMALLINT, DOUBLE } = require('sequelize');
 const { Schema } = mongoose;
 
+function image(image){
+  return 'http://localhost:4444/uploads/' + image
+}
+
 module.exports = (mongoose) => {
   const ProductSchema = new Schema({
     product_id: {
@@ -66,21 +70,25 @@ module.exports = (mongoose) => {
       type: String,
       required: false,
       default: "",
+      get:image
     },
     flag: {
       type: Boolean,
       required: false,
-      default: "",
+      default: "true",
     },
      stock: {
       type: Boolean, // 0=inactive,1=active
       required: false,
-      default:0,
+      default:1,
     },
 
   }, {
     timestamps: true,
   })
+
+  ProductSchema.set('toObject',{getters:true})
+  ProductSchema.set('toJSON',{getters:true})
 
   return mongoose.model('Product', ProductSchema, 'product')
 }

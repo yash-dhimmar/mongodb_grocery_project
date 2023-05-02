@@ -1,5 +1,5 @@
 const validator = require('../../../modules/validators/api/index')
-const CommonController = require('./CommonController')
+
 const UserService = require('../services/UserService')
 const responseHelper = require('../../api/resources/response');
 const jwt = require('jsonwebtoken')
@@ -263,6 +263,19 @@ class UserController {
       return responseHelper.success(data, 'order-detail', res)
     } catch (error) {
       console.log("error============>", error)
+      return responseHelper.error(error, res)
+    }
+  }
+
+  async addreview(req, res) {
+    try {
+      await Validator.addreviewValidation(req.body);
+      var token = req.headers.authorization;
+      var decodedData = jwt.verify(token, 'secretkey')
+      var user = decodedData.user[0].user_id;
+      var data = await UserService.addreview(req.body, user)
+      return responseHelper.success(data, 'review added sucessfully ', res)
+    } catch (error) {
       return responseHelper.error(error, res)
     }
   }

@@ -1,9 +1,8 @@
-const { User, Category, Subcategory, Brand, Product, Addcart, Orders, Order_item, Wishlist, Address, Setting, Coupan_management, Section, Section_Slider, Section_Product, conn, UserDeviceToken } = require('../../../data/models/index')
+const { User, Category, Subcategory, Brand, Product,Review, Addcart, Orders, Order_item, Wishlist, Address, Setting, Coupan_management, Section, Section_Slider, Section_Product, conn, UserDeviceToken } = require('../../../data/models/index')
 const promise = require('bluebird')
 const ejs = require('ejs')
 const path = require('path')
 const moment = require('moment-timezone');
-const helper = require('../../../utills/helper')
 var mongoose = require('mongoose')
 //const BaseService = require('./BaseService');
 const {
@@ -302,7 +301,6 @@ class UserService {
     try {
       return new Promise(async (resolve, reject) => {
         const fetch = await Wishlist.aggregate([
-          // { $match: { user_id: `${id}`} },
           { $match: { user_id: mongoose.Types.ObjectId(user_id) } },
           {
             $lookup:
@@ -1064,6 +1062,31 @@ class UserService {
       })
     } catch (error) {
       return reject(error)
+    }
+  }
+
+  async addreview (body,user_id){
+    try{
+      return new Promise(async(resolve,reject)=>{
+        let {product_id,review_star} = body
+        var user= await User.find({user_id:user_id})
+        if(user.length>0){
+          var product= await Product.find({product_id:product_id})
+          if (product.length>0){
+            var review = await Review.create({user_id:user_id,product_id:product_id,review_star:review_star})
+            resolve(review)
+          }else{
+            var error =  {message:"product id not found please enter a valid product_id"}
+            resolve (error)
+          }
+        }
+        
+
+      })
+
+    }catch(error){
+      return reject(error)
+
     }
   }
 

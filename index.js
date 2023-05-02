@@ -30,8 +30,10 @@ app.use(session({
     saveUninitialized: false,
     resave: false
 }));
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 app.use('/public/images', express.static('images'));
+app.use(express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static('uploads'));
 app.use('/public/keys', express.static('keys'));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/src/v1/views/html/'));

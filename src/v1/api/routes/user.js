@@ -31,4 +31,6 @@ router.post('/checkout', GlobalAuthClass.authenticate, UserController.checkout)
 router.post('/order-list', GlobalAuthClass.authenticate, UserController.orderlist)
 router.post('/order-detail', GlobalAuthClass.authenticate, UserController.orderdetail)
 
+router.post('/add-review', GlobalAuthClass.authenticate, UserController.addreview)
+
 module.exports = router;

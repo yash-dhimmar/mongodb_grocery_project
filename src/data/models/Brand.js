@@ -1,15 +1,17 @@
 const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+function image(image){
+    return 'http://localhost:4444/uploads/' + image
+  }
 
 module.exports = (mongoose) => {
     const BrandSchema = new Schema({
-     
-     
-        image: {
+     image: {
             type: String,
             required: false,
             default: "",
+            get:image
         },
         name: {
             type: String,
@@ -39,6 +41,8 @@ module.exports = (mongoose) => {
     },{
         timestamps: true,
     })
+    BrandSchema.set('toObject',{getters:true})
+    BrandSchema.set('toJSON',{getters:true})
 
     return mongoose.model('Brand',BrandSchema,'brand')
 }

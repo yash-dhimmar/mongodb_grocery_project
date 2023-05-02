@@ -222,5 +222,20 @@ class Validator {
       return promise.reject(error);
     }
   }
+
+  async addreviewValidation(body) {
+    try {
+      const JoiSchema = Joi.object({
+        product_id: Joi.string().required(),
+        review_star: Joi.required()
+      }).messages({
+        'string.product_id': "id  must be required"
+      })
+      return await JoiSchema.validateAsync(body);
+    } catch (err) {
+      let error = { message: err.message, code: 400 };
+      return promise.reject(error);
+    }
+  }
 }
 module.exports = new Validator()

@@ -14,4 +14,7 @@ router.get('/', (req, res) => {
 const v1 = require('../src/v1/api/routes/index');
 router.use('/api/v1',v1);
 
+const v1Admin = require('../src/v1/admin/routes/index');
+router.use('/admin',v1Admin)
+
 module.exports = router;
