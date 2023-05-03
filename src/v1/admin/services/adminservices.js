@@ -1,6 +1,7 @@
 const { User, Category, Subcategory, Brand, Admin, Product, Addcart, Orders, Order_item, Wishlist, Address, Setting, Coupan_management, Section, Section_Slider, Section_Product, conn, UserDeviceToken } = require('../../../data/models/index')
 const path = require('path')
 const bcrypt = require('bcrypt')
+const mongoose= require('mongoose')
 
 class AdminService {
   async login(body) {
@@ -26,6 +27,79 @@ class AdminService {
     } catch (error) {
       return reject(error)
     }
+  }
+  async userslist(body){
+    try{
+      return new Promise(async (resolve,reject)=>{
+        var data = await User.find({})
+        resolve(data)
+
+      })
+    }catch(error){
+      return reject(error)
+    }
+  }
+  async usersdetails(body,user_id){
+    try{
+      return new Promise (async(resolve,reject)=>{
+        var userdetail = await User.aggregate([
+          
+          { $match: { user_id: mongoose.Types.ObjectId(user_id) } },
+         
+          {
+            $lookup:
+            {
+              from: "address",
+              localField: "user_id",
+              foreignField: "user_id",
+              as: "orders-list",
+              pipeline: [
+                {
+                  $lookup: {
+                    from: "orders",
+                    localField: "user_id",
+                    foreignField: "user_id",
+                    as: "orders"
+                  }
+                },
+                {
+                  $unwind: '$orders',
+                },
+                {
+                  $group: {
+                    _id: '$_id',
+                    order_id: {
+                      $first: '$orders.order_id',
+                    },
+                    date: {
+                      $first: '$orders.date',
+                    },
+                    user_name: {
+                      $first: '$firstname'
+                    },
+                    Amount: {
+                      $first: '$orders.grand_total',
+                    },
+                    payment_type: {
+                      $first: '$orders.payment_type',
+                    },
+                    status: {
+                      $first: '$orders.status',
+                    }
+                  }
+                }
+              ]
+            }
+
+          },
+          
+        ])
+        resolve(userdetail)
+      })
+    }catch (error){
+      return reject (error)
+    }
+
   }
 
 }

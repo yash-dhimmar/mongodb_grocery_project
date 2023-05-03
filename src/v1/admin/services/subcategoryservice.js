@@ -1,8 +1,6 @@
 const { User, Category, Subcategory, Brand, Product, Addcart, Orders, Order_item, Wishlist, Address, Setting, Coupan_management, Section, Section_Slider, Section_Product, conn, UserDeviceToken } = require('../../../data/models/index')
 const path = require('path')
-
 class SubcategoryServices {
-
   async insertsubcategory(req) {
     try {
       return new Promise(async (resolve, reject) => {
@@ -11,7 +9,6 @@ class SubcategoryServices {
         if (data) {
           return resolve(data)
         }
-
       })
     } catch (error) {
       return reject(error)
@@ -55,14 +52,9 @@ class SubcategoryServices {
         var data = await Subcategory.find({})
         resolve(data)
       })
-
     } catch (error) {
       return reject(error)
     }
   }
-
-
-
-
 }
 module.exports = new SubcategoryServices()

@@ -2,7 +2,6 @@ const { User, Category, Subcategory, Brand, Product, Addcart, Orders, Order_item
 const path = require('path')
 
 class BrandService {
-
   async insertbrand(req) {
     try {
       return new Promise(async (resolve, reject) => {
@@ -22,7 +21,6 @@ class BrandService {
       return reject(error)
     }
   }
-
   async updatebrand(req) {
     try {
       return new Promise(async (resolve, reject) => {
@@ -39,7 +37,6 @@ class BrandService {
       return reject(error)
     }
   }
-
   async branddelete(body) {
     try {
       return new Promise(async (resolve, reject) => {
@@ -57,7 +54,6 @@ class BrandService {
       return reject(error)
     }
   }
-
   async brandlist(body) {
     try {
       return new Promise(async (resolve, reject) => {

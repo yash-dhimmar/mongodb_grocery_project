@@ -1,5 +1,4 @@
 const messages = require('../../../../config/constant.json');
-
 class ResponseHelper {
   async success(result, message, res) {
     let data = {

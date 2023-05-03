@@ -11,7 +11,6 @@ class ProductController{
       return responseHelper.error(error,res)
     }
   }
-
   async updateproduct(req,res){
     try{
       var data = await AdminService.updateproduct(req);
@@ -20,7 +19,6 @@ class ProductController{
       return responseHelper.error(error,res)
     }
   }
-
   async productdelete(req,res){
     try{
       await Validator.deleteproductValidation(req.body);
@@ -30,7 +28,6 @@ class ProductController{
       return responseHelper.error(error,res)
     }
   }
-
   async productlist(req,res){
     try{
       var data = await AdminService.productlist(req.body);
