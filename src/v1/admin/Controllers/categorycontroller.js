@@ -41,7 +41,7 @@ class CategoryController{
       var data = await AdminService.categorylist(req.body);
       return responseHelper.success(data,'category list',res)
     }catch(error){
-      return responseHelper.error(error,res)
+      return responseHelper.error(error,res)         
     }
   }
 
