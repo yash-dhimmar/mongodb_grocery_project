@@ -61,6 +61,22 @@ class Validator {
       return promise.reject(error);
     }
   }
+
+  async loginValidation(body) {
+    try {
+      const JoiSchema = Joi.object({
+       email : Joi.string().required(),
+       password:Joi.string().required()
+
+      }).messages({
+        'string.email': "email  must be required"
+      })
+      return await JoiSchema.validateAsync(body);
+    } catch (err) {
+      let error = { message: err.message, code: 400 };
+      return promise.reject(error);
+    }
+  }
 }
 
 module.exports= new Validator()

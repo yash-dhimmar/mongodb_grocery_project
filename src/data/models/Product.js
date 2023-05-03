@@ -28,7 +28,8 @@ module.exports = (mongoose) => {
     },
     brand_id: {
       type: Schema.Types.ObjectId,
-      required: true,
+      ref: 'Brand',
+
       //unique:true
     },
     productname: {

@@ -3,27 +3,25 @@ const path = require('path')
 const bcrypt = require('bcrypt')
 
 class AdminService {
-  async login(body,req) {
+  async login(body) {
     try {
       return new Promise(async (resolve, reject) => {
         let { email, password } = body
         var data = await Admin.find({ email: email })
         const hash = await bcrypt.hash(password, 10)
-
         if (data.length > 0) {
-          var data1 = bcrypt.compareSync(`${password}`,data[0].password)
-            console.log("data1============>",data1)
-            if(data1){
-              return resolve(data[0])
-            }else{
-              var err = {message:"enter a valid password"}
-              reject(error)
-            }
-          }else {
-            var insert = await Admin.create({ email: email, password: hash })
-          return resolve(insert)
+          var data1 = bcrypt.compareSync(`${password}`, data[0].password)
+          console.log("data1============>", data1)
+          if (data1) {
+            return resolve(data[0])
+          } else {
+            var err = { message: "enter a valid password" }
+            reject(err)
           }
-
+        } else {
+          var insert = await Admin.create({ email: email, password: hash })
+          return resolve(insert)
+        }
       })
     } catch (error) {
       return reject(error)

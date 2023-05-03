@@ -67,7 +67,7 @@ class CategoryServices {
       })
 
     } catch (error) {
-
+      return reject (error)
     }
   }
 

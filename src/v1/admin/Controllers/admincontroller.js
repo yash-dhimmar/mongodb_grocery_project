@@ -5,6 +5,7 @@ const Validator = require('../middleware/validation')
 class AdminController{
   async login(req,res){
     try{
+      await Validator.loginValidation(req.body);
       var data = await AdminService.login(req.body)
       return responseHelper.success(data,'login successfully',res)
     }catch(error){

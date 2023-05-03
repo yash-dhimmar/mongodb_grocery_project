@@ -81,7 +81,7 @@ class ProductService{
       })
 
     }catch(error){
-
+      return reject (error)
     }
   }
 

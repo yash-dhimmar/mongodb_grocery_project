@@ -550,7 +550,7 @@ class UserService {
                 ]
               }
             },
-            // - product  section
+            // - product section
             {
               $lookup:
               {

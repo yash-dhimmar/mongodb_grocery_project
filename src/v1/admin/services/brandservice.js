@@ -23,50 +23,49 @@ class BrandService {
     }
   }
 
-  async updatebrand(req){
-    try{
-      return new Promise(async (resolve,reject)=>{
-       // let {category_id,category_name,image}= body
-        var data = await Brand.updateOne({brand_id:req.body.brand_id},{$set:{name:req.body.name,image:req.file.filename}})
-        if (data){
-          return  resolve()
-         }else{
-          var error =  {message:"category id not found please enter a valid category_id"}
-          resolve (error)
+  async updatebrand(req) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        // let {category_id,category_name,image}= body
+        var data = await Brand.updateOne({ brand_id: req.body.brand_id }, { $set: { name: req.body.name, image: req.file.filename } })
+        if (data) {
+          return resolve()
+        } else {
+          var error = { message: "category id not found please enter a valid category_id" }
+          resolve(error)
         }
       })
-    }catch (error){
-      return reject (error)
+    } catch (error) {
+      return reject(error)
     }
   }
 
-  async branddelete(body){
-    try{
-      return new Promise(async (resolve,reject)=>{
-       let {brand_id}= body
-        var data = await Brand.deleteOne({brand_id:brand_id})
-        console.log("data================>",data)
-        if (data.length>0){
-         return  resolve()
-        }else{
-          var error =  {message:"brand id not found please enter a valid brand_id"}
-          reject (error)
+  async branddelete(body) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        let { brand_id } = body
+        var data = await Brand.deleteOne({ brand_id: brand_id })
+        console.log("data================>", data)
+        if (data.length > 0) {
+          return resolve()
+        } else {
+          var error = { message: "brand id not found please enter a valid brand_id" }
+          reject(error)
         }
       })
-    }catch (error){
-      return reject (error)
+    } catch (error) {
+      return reject(error)
     }
   }
 
-  async brandlist(body){
-    try{
-      return new Promise (async(resolve,reject)=>{
+  async brandlist(body) {
+    try {
+      return new Promise(async (resolve, reject) => {
         var data = await Brand.find({})
         resolve(data)
       })
-
-    }catch(error){
-
+    } catch (error) {
+      return reject(error)
     }
   }
 
