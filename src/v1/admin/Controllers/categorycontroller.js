@@ -23,6 +23,10 @@ class CategoryController{
       return responseHelper.success(data,'category updated successfully',res)
     }catch(error){
       return responseHelper.error(error,res)
+
+
+
+      
     }
   }
 
