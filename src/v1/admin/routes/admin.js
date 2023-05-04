@@ -8,12 +8,15 @@ const SubcategoryController = require('../../admin/Controllers/subcategorycontro
 const BrandController = require('../../admin/Controllers/brandcontroller')
 const ProductController = require('../../admin/Controllers/productcontroller')
 const OrderController = require('../Controllers/ordercontroller')
+const CoupanController = require('../Controllers/coupancontroller')
+const SettingController = require('../Controllers/settingcontroller')
 const AdminController = require('../Controllers/admincontroller')
+const HomeController = require('../Controllers/Homecontroller')
 const upload = require('../middleware/multer')
 
 router.post('/login', AdminController.login);
 router.post('/users-list', AdminController.userslist)
-router.post('/users-details',AdminController.usersdetails)
+router.post('/users-details', AdminController.usersdetails)
 
 router.post('/insert-category', upload.single("image"), CategoryController.insertcategory)
 router.post('/update-category', upload.single("image"), CategoryController.updatecategory)
@@ -37,5 +40,37 @@ router.post('/product-list', ProductController.productlist)
 
 router.post('/order-list', OrderController.orderlist)
 router.post('/order-detail', OrderController.orderdetail)
+
+router.post('/add-coupan', CoupanController.addcoupan)
+router.post('/update-coupan', CoupanController.updatecoupan)
+router.post('/delete-coupan', CoupanController.coupandelete)
+router.post('/coupan-list', CoupanController.coupanlist)
+
+router.post('/insert', SettingController.insertsetting)
+router.post('/update', SettingController.updatesetting)
+
+router.post('/add-slider', upload.single("image"), HomeController.addslider)
+router.post('/delete-slider-product', HomeController.sliderdeleteproduct)
+router.post('/slider-list', HomeController.sliderlist)
+
+router.post('/add-product-slider', HomeController.productslider)
+router.post('/delete-slider-product-section', HomeController.deletesliderproductsection)
+router.post('/product-section-list', HomeController.productsectionlist)
+
+router.post('/add-brand-slider', HomeController.addbrandslider)
+router.post('/delete-slider-brand-section', HomeController.deletesliderbrandsection)
+router.post('/brand-section-list', HomeController.brandsectionlist)
+
+router.post('/add-category-slider', HomeController.addcategoryslider)
+router.post('/delete-slider-category-section', HomeController.deleteslidercategorysection)
+router.post('/category-section-list', HomeController.categorysectionlist)
+
+
+
+
+
+
+
+
 
 module.exports = router

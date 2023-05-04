@@ -1,7 +1,7 @@
 const { User, Category, Subcategory, Brand, Admin, Product, Addcart, Orders, Order_item, Wishlist, Address, Setting, Coupan_management, Section, Section_Slider, Section_Product, conn, UserDeviceToken } = require('../../../data/models/index')
 const path = require('path')
 const bcrypt = require('bcrypt')
-const mongoose= require('mongoose')
+const mongoose = require('mongoose')
 
 class AdminService {
   async login(body) {
@@ -28,76 +28,145 @@ class AdminService {
       return reject(error)
     }
   }
-  async userslist(body){
-    try{
-      return new Promise(async (resolve,reject)=>{
+  async userslist(body) {
+    try {
+      return new Promise(async (resolve, reject) => {
         var data = await User.find({})
         resolve(data)
 
       })
-    }catch(error){
+    } catch (error) {
       return reject(error)
     }
   }
-  async usersdetails(body,user_id){
-    try{
-      return new Promise (async(resolve,reject)=>{
-        var userdetail = await User.aggregate([
-          
+  async usersdetails(body, user_id) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        // var userdetail = await User.aggregate([
+
+        //   { $match: { user_id: mongoose.Types.ObjectId(user_id) } },
+
+        //   {
+        //     $lookup:
+        //     {
+        //       from: "address",
+        //       localField: "user_id",
+        //       foreignField: "user_id",
+        //       as: "address",
+        //       pipeline: [
+        //         {
+        //           $lookup: {
+        //             from: "orders",
+        //             localField: "user_id",
+        //             foreignField: "user_id",
+        //             as: "orders"
+        //           }
+        //         },
+        //         {
+        //           $unwind: '$orders',
+        //         },
+        //         {
+        //           $group: {
+        //             _id: '$_id',
+        //             order_id: {
+        //               $first: '$orders.order_id',
+        //             },
+        //             date: {
+        //               $first: '$orders.date',
+        //             },
+        //             user_name: {
+        //               $first: '$firstname'
+        //             },
+        //             Amount: {
+        //               $first: '$orders.grand_total',
+        //             },
+        //             payment_type: {
+        //               $first: '$orders.payment_type',
+        //             },
+        //             status: {
+        //               $first: '$orders.status',
+        //             }
+        //           }
+        //         }
+        //       ]
+        //     }
+        //   },
+        // ])
+        var user = await Address.aggregate([
           { $match: { user_id: mongoose.Types.ObjectId(user_id) } },
-         
           {
             $lookup:
             {
-              from: "address",
+              from: "users",
               localField: "user_id",
               foreignField: "user_id",
-              as: "orders-list",
-              pipeline: [
-                {
-                  $lookup: {
-                    from: "orders",
-                    localField: "user_id",
-                    foreignField: "user_id",
-                    as: "orders"
-                  }
-                },
-                {
-                  $unwind: '$orders',
-                },
-                {
-                  $group: {
-                    _id: '$_id',
-                    order_id: {
-                      $first: '$orders.order_id',
-                    },
-                    date: {
-                      $first: '$orders.date',
-                    },
-                    user_name: {
-                      $first: '$firstname'
-                    },
-                    Amount: {
-                      $first: '$orders.grand_total',
-                    },
-                    payment_type: {
-                      $first: '$orders.payment_type',
-                    },
-                    status: {
-                      $first: '$orders.status',
-                    }
-                  }
-                }
-              ]
-            }
-
+              as: "users"
+            },
           },
-          
+          {
+            $unwind: '$users'
+          },
+          {
+            $group: {
+              _id: '$_id',
+
+              name: {
+                $first: { $concat: ["$users.firstname", "$users.lastname"] },
+              },
+              mobilenumber: {
+                $first: '$users.mobilenumber',
+              },
+              email: {
+                $first: '$users.email'
+              },
+              address: {
+                $first: { $concat: ['$home_details', '$landmark'] }
+              },
+            }
+          },
         ])
-        resolve(userdetail)
+        var order = await User.aggregate([
+          { $match: { user_id: mongoose.Types.ObjectId(user_id) } },
+          {
+            $lookup:
+            {
+              from: "orders",
+              localField: "user_id",
+              foreignField: "user_id",
+              as: "orders"
+            },
+          },
+          {
+            $unwind: '$orders'
+          },
+          {
+            $group: {
+              _id: '$_id',
+              order_id: {
+                $first: '$orders.order_id',
+              },
+              date: {
+                $first: '$orders.date',
+              },
+              user_name: {
+                $first: { $concat: ['$firstname', '$lastname'] }
+              },
+              Amount: {
+                $first: '$orders.grand_total',
+              },
+              payment_type: {
+                $first: '$orders.payment_type',
+              },
+              status: {
+                $first: '$orders.status',
+              }
+            }
+          }
+        ])
+        resolve(user.concat([order]))
       })
-    }catch (error){
-      return reject (error)
+    } catch (error) {
+      return reject(error)
     }
 
   }

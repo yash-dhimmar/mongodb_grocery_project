@@ -15,7 +15,7 @@ module.exports = (mongoose) => {
       default: ""
     },
     delivery_charge: {
-      type: String,
+      type: Number,
       required: false,
       default: ""
     },

@@ -64,9 +64,6 @@ class OrderService {
             }
           },
         ])
-
-
-
         var product = await Addcart.aggregate([
           { $match: { user_id: mongoose.Types.ObjectId(user_id) } },
           {
@@ -126,8 +123,7 @@ class OrderService {
           Tax: tax3,
           Grand_Total: grand_total
         }
-
-        resolve(user.concat([product, data]))
+         resolve(user.concat([product, data]))
       }else{
         var err = {message:"order_id not found plz enter valid order_id"}
         reject(err)

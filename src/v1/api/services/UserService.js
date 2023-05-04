@@ -487,7 +487,7 @@ class UserService {
                         $first: '$sectioncategorys.category_id',
                       },
                       category_name: {
-                        $first: '$sectioncategorys.name',
+                        $first: '$sectioncategorys.category_name',
                       },
                       image: {
                         $first: '$sectioncategorys.image',
@@ -531,7 +531,7 @@ class UserService {
                         $first: '$sectioncategorys.category_id',
                       },
                       category_name: {
-                        $first: '$sectioncategorys.name',
+                        $first: '$sectioncategorys.category_name',
                       },
                       image: {
                         $first: '$sectioncategorys.image',
