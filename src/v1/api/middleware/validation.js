@@ -237,5 +237,6 @@ class Validator {
       return promise.reject(error);
     }
   }
+  
 }
 module.exports = new Validator()

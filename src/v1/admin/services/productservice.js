@@ -18,7 +18,6 @@ class ProductService {
           discount: req.body.discont,
           image: req.file.filename
         })
-
         if (data) {
           return resolve(data)
         }
@@ -31,7 +30,6 @@ class ProductService {
   async updateproduct(req) {
     try {
       return new Promise(async (resolve, reject) => {
-        // let {category_id,category_name,image}= body
         var data = await Product.updateOne({ product_id: req.body.product_id }, {
           $set: {
             productname: req.body.productname,
@@ -77,13 +75,10 @@ class ProductService {
         var data = await Product.find({})
         resolve(data)
       })
-
     } catch (error) {
       return reject(error)
     }
   }
-
-
 
 }
 

@@ -157,8 +157,7 @@ class UserService {
         var data1 = await Product.aggregate([{ $match: { productname: new RegExp(searching) } }])
         resolve(data1)
         console.log("data1=========>", data1)
-        //    filterCondition = await this.filterBy(filter);
-        //  resolve(data1.concat(filterCondition))
+       
       })
     } catch (error) {
       return reject(error)
@@ -917,7 +916,6 @@ class UserService {
                   quantity: dataset[j].quantity
                 })
               }
-
             }
           }
         }
@@ -980,7 +978,7 @@ class UserService {
   async orderdetail(body, user_id) {
     try {
       return new Promise(async (resolve, reject) => {
-        let { order_id } = body
+        let { _id } = body
         var data = await Address.aggregate([
           { $match: { user_id: mongoose.Types.ObjectId(user_id) } },
           {
@@ -1050,7 +1048,7 @@ class UserService {
         ])
         data[0].item = items
         console.log("items=================>", items)
-        var bill = await Orders.find({ order_id: order_id },
+        var bill = await Orders.find({ _id:_id },
           {
             "grand_total": 1,
             "sub_total": 1,

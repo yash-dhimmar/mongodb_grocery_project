@@ -245,7 +245,6 @@ class Homeservice {
     try {
       return new Promise(async (resolve, reject) => {
         var category = await Section_Category.aggregate([
-
           {
             $lookup:
             {

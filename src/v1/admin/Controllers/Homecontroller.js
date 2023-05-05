@@ -1,5 +1,6 @@
 const Homeservice = require('../services/Homeservice')
 const responseHelper = require('../resources/response')
+const Validator = require ('../middleware/validation')
 
 class HomeController {
 
@@ -14,6 +15,7 @@ class HomeController {
   }
   async sliderdeleteproduct(req, res) {
     try {
+      await Validator.sliderdeleteValidation(req.body)
       var data = await Homeservice.sliderdeleteproduct(req.body)
       return responseHelper.success(data, 'slider image deleted successfully', res)
     } catch (error) {
@@ -41,6 +43,7 @@ class HomeController {
   }
   async deletesliderproductsection(req, res) {
     try {
+      await Validator.sliderdeleteproductValidation(req.body)
       var data = await Homeservice.deletesliderproductsection(req.body)
       return responseHelper.success(data, 'slider  image deleted successfully', res)
     } catch (error) {
@@ -68,6 +71,7 @@ class HomeController {
   }
   async deletesliderbrandsection(req, res) {
     try {
+      await Validator.sliderdeletebrandValidation(req.body)
       var data = await Homeservice.deletesliderbrandsection(req.body)
       return responseHelper.success(data, 'brand slider  image deleted successfully', res)
     } catch (error) {
@@ -95,6 +99,7 @@ class HomeController {
   }
   async deleteslidercategorysection(req, res) {
     try {
+      await Validator.sliderdeletecategoryValidation(req.body)
       var data = await Homeservice.deleteslidercategorysection(req.body)
       return responseHelper.success(data, 'category slider  image deleted successfully', res)
     } catch (error) {
