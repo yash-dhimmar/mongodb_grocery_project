@@ -48,7 +48,6 @@ class Validator {
     }
 
   }
-
   async resendOtpValidation(body) {
     try {
       const joiSchema = Joi.object({
@@ -63,7 +62,6 @@ class Validator {
       return promise.reject(error);
     }
   }
-
   async productValidation(body) {
     try {
       const JoiSchema = Joi.object({
@@ -77,12 +75,11 @@ class Validator {
       return promise.reject(error);
     }
   }
-
   async searchValidation(body) {
     try {
       const JoiSchema = Joi.object({
         search: Joi.required(),
-       // filter: Joi.required()
+        // filter: Joi.required()
       }).messages({
         'string.search': "search must be required",
       })
@@ -92,7 +89,6 @@ class Validator {
       return promise.reject(error);
     }
   }
-
   async addtocartValidation(body) {
     try {
       const JoiSchema = Joi.object({
@@ -107,7 +103,6 @@ class Validator {
       return promise.reject(error);
     }
   }
-
   async deletecartValidation(body) {
     try {
       const JoiSchema = Joi.object({
@@ -121,7 +116,6 @@ class Validator {
       return promise.reject(error);
     }
   }
-
   async wishlistValidation(body) {
     try {
       const JoiSchema = Joi.object({
@@ -133,12 +127,10 @@ class Validator {
       return promise.reject(error);
     }
   }
-
   async brandsearchValidation(body) {
     try {
       const JoiSchema = Joi.object({
         search: Joi.required(),
-
       }).messages({
         'string.search': "search must be required",
       })
@@ -148,7 +140,6 @@ class Validator {
       return promise.reject(error);
     }
   }
-
   async addressvalidation(body) {
     try {
       const JoiSchema = Joi.object({
@@ -195,7 +186,7 @@ class Validator {
       return promise.reject(error);
     }
   }
- async checkoutValidation(body) {
+  async checkoutValidation(body) {
     try {
       const JoiSchema = Joi.object({
         address_id: Joi.string().required(),
@@ -222,7 +213,6 @@ class Validator {
       return promise.reject(error);
     }
   }
-
   async addreviewValidation(body) {
     try {
       const JoiSchema = Joi.object({
@@ -237,6 +227,6 @@ class Validator {
       return promise.reject(error);
     }
   }
-  
+
 }
 module.exports = new Validator()

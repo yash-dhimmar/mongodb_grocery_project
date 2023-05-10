@@ -30,6 +30,12 @@ module.exports = (mongoose) => {
       required: false,
       default: ""
     },
+    auth_token: {
+      type: String,
+      required: false,
+      default: ""
+    },
+    
 
   }, {
     timestamps: true

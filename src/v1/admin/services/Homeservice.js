@@ -273,7 +273,6 @@ class Homeservice {
           },
         ])
         resolve(category)
-
       })
     } catch (error) {
       return reject(error)

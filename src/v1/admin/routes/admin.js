@@ -21,6 +21,9 @@ router.post('/login', AdminController.login);
 router.post('/users-list', AdminController.userslist)
 /* admin users details api */
 router.post('/users-details', AdminController.usersdetails)
+router.post ('/forgot-password',GlobalAuthClass.authenticate,AdminController.forgotpassword)
+
+router.post('/change-password',GlobalAuthClass.authenticate,AdminController.changepassword)
 
 /* admin category CRUD  api */
 router.post('/insert-category', upload.single("image"), CategoryController.insertcategory)

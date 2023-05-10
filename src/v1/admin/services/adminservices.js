@@ -2,6 +2,7 @@ const { User, Category, Subcategory, Brand, Admin, Product, Addcart, Orders, Ord
 const path = require('path')
 const bcrypt = require('bcrypt')
 const mongoose = require('mongoose')
+var nodemailer = require('nodemailer');
 
 class AdminService {
   async login(body) {
@@ -170,6 +171,66 @@ class AdminService {
     }
 
   }
+  async forgotpassword(body,_id) {
+    try {
+      return new Promise(async (resolve, reject) => {
+       let { email } = body
+        var data = await Admin.find({ email:email})
+        if (data.length > 0) {
+          var transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+              user: 'tristate.mteam@gmail.com',
+              pass: 'nuwuxqxjnogjuwyb'
+            }
+          });
+          var mailOptions = await transporter.sendMail({
+            from: 'tristate.mteam@gmail.com',
+            to: 'yashpra14@gmail.com',
+            subject: 'password',
+            text: 'tristate123'
+          });
+          console.log("mailOptions========>", mailOptions)
+          resolve(mailOptions)
+        }
+      })
+    } catch (error) {
+      return reject(error)
+    }
+  }
+  async changepassword(body, email) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        let { password, newpassword, conformpassword } = body
+        var data = await Admin.find({ email: email })
+        if (data.length > 0) {
+          var pass = bcrypt.compareSync(`${password}`, data[0].password)
+          if (pass) {
+            if (password === newpassword) {
+              var error = { message: "enter valid  new password" }
+              error.code = 400
+              reject(error)
+            } else if (newpassword === conformpassword) {
+             conformpassword = await bcrypt.hashSync(password, 10)
+              var update = await Admin.updateOne({ email: email }, { $set: { password: conformpassword } })
+              console.log("update===============>", update)
+              resolve()
+            } else {
+              var err = { message: "password and conformpassword does not match" }
+              reject(err)
+            }
+          }
+          // else {
+          //   var err = { message: "password does not match to the database" }
+          //   reject(err)
+          // }
+        }
+      })
+    } catch (error) {
+      return reject(error)
+    }
+  }
+
 
 }
 module.exports = new AdminService()

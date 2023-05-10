@@ -28,7 +28,7 @@ build/Release
 
 # Dependency directories
 node_modules
-.env
+
 jspm_packages
 typings
 package-lock.json
@@ -41,4 +41,3 @@ package-lock.json
 # Optional notification log file
 public/notification.txt
 
-uploads
