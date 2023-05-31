@@ -21,6 +21,7 @@ class UserController {
       await Validator.loginValidation(req.body)
       var user = await UserService.login(req.body)
       if (user) {
+        console.log("yash=======>",user[0].mobilenumber)
         var token = jwt.sign({ user }, 'secretkey', { expiresIn: '20d' })
       }
       console.log("token======>", token)

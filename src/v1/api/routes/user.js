@@ -4,6 +4,7 @@ const Multer = require('multer')
 const path = require('path')
 const GlobalAuthClass = require('../middleware/auth');
 const UserController = require('../../api/controllers/UserController');
+const PaymentController = require('../../api/controllers/PaymentController')
 
 /* send otp to user mobile number */
 router.post('/sendotp', UserController.sendotp);
@@ -79,5 +80,11 @@ router.post('/order-detail', GlobalAuthClass.authenticate, UserController.orderd
 
 /* add review product */
 router.post('/add-review', GlobalAuthClass.authenticate, UserController.addreview)
+
+router.post('/create-customer', GlobalAuthClass.authenticate,PaymentController.createcustomer)
+
+router.post('/add-card-details',PaymentController.addcard)
+
+router.post('/create-charge',PaymentController.createcharge)
 
 module.exports = router;

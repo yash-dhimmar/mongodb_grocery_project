@@ -1095,6 +1095,27 @@ module.exports = new UserService()
 
 
 
+// //Filteration
+// let where;
+// if (name) {
+//   where = { name: { $regex: name, $options: "i" } }; //filter by name
+// } else {
+//   where = {}; //Take All the documents(1=1)
+// }
+
+// //Pagination
+// limit = parseInt(limit)
+// let count = (page_no - 1) * limit
+
+// //Sorting
+// orderBy = parseInt(orderBy)
+ 
+// let getData = await brandModel.aggregate([
+//   { $match: where },
+//   { $sort: {[sortBy] : orderBy}},
+//   {$skip: count},
+//   {$limit: limit},
+// ]);
 
 
 
