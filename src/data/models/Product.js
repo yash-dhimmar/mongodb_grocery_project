@@ -15,7 +15,6 @@ module.exports = (mongoose) => {
     
 
     },
-    
     category_id: {
       type: Schema.Types.ObjectId,
       ref: 'Category',

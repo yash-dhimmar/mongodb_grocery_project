@@ -6,15 +6,15 @@ const { Schema } = mongoose;
 
 
 module.exports = (mongoose) => {
-  const PaymentSchema = new Schema({
-    payment_id: {
+  const AddcardSchema = new Schema({
+    add_card_id: {
       type: Schema.Types.ObjectId,
       default: new ObjectId()
     },
     user_id: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      default: "",
+     
     },
     user_stripe_id: {
       type: String,
@@ -34,17 +34,17 @@ module.exports = (mongoose) => {
       default: "",
     },
     card_ExpYear: {
-      type: String,
+      type: Number,
       required: false,
       default: "",
     },
     card_ExpMonth: {
-      type: String,
+      type: Number,
       required: false,
       default: "",
     },
     card_Number: {
-      type: String,
+      type: Number,
       required: false,
       default: "",
     },
@@ -58,11 +58,6 @@ module.exports = (mongoose) => {
       required: false,
       default: "",
     },
-    amount: {
-      type: Number,
-      required: false,
-      default: "",
-    },
 
   }, {
     timestamps: true,
@@ -70,5 +65,5 @@ module.exports = (mongoose) => {
 
 
 
-  return mongoose.model('Payment', PaymentSchema, 'payment')
+  return mongoose.model('Add_card', AddcardSchema, 'add_card')
 }

@@ -83,7 +83,7 @@ router.post('/add-review', GlobalAuthClass.authenticate, UserController.addrevie
 
 router.post('/create-customer', GlobalAuthClass.authenticate,PaymentController.createcustomer)
 
-router.post('/add-card-details',PaymentController.addcard)
+router.post('/add-card-details',GlobalAuthClass.authenticate,PaymentController.addcard)
 
 router.post('/create-charge',PaymentController.createcharge)
 

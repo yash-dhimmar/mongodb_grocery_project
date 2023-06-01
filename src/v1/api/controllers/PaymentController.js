@@ -21,8 +21,10 @@ class PaymentController {
 
   async addcard(req,res){
     try {
-     
-      var data = await PaymentService.addcard(req.body);
+      var token = req.headers.authorization;
+      var decodedData = jwt.verify(token, 'secretkey');
+      var user_id = decodedData.user[0].user_id;
+      var data = await PaymentService.addcard(req.body,user_id);
       return responseHelper.success(data, 'customer add card data submited successfully', res)
     } catch (error) {
       console.log("error============>", error)
@@ -31,8 +33,10 @@ class PaymentController {
   }
   async createcharge(req,res){
     try {
-     
-      var data = await PaymentService.createcharge(req.body);
+      var token = req.headers.authorization;
+      var decodedData = jwt.verify(token, 'secretkey');
+      var user_id = decodedData.user[0].user_id;
+      var data = await PaymentService.createcharge(req.body,user_id);
       return responseHelper.success(data, 'amount', res)
     } catch (error) {
       console.log("error============>", error)
