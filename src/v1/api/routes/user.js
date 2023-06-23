@@ -81,10 +81,9 @@ router.post('/order-detail', GlobalAuthClass.authenticate, UserController.orderd
 /* add review product */
 router.post('/add-review', GlobalAuthClass.authenticate, UserController.addreview)
 
-router.post('/create-customer', GlobalAuthClass.authenticate,PaymentController.createcustomer)
-
-router.post('/add-card-details',GlobalAuthClass.authenticate,PaymentController.addcard)
-
-router.post('/create-charge',PaymentController.createcharge)
+/* stripe payment */
+router.post('/create-customer', GlobalAuthClass.authenticate, PaymentController.createcustomer)
+router.post('/add-card-details', GlobalAuthClass.authenticate, PaymentController.addcard)
+router.post('/create-charge', GlobalAuthClass.authenticate, PaymentController.createcharge)
 
 module.exports = router;
