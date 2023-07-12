@@ -22,7 +22,6 @@ router.post('/users-list', AdminController.userslist)
 /* admin users details api */
 router.post('/users-details', AdminController.usersdetails)
 router.post ('/forgot-password',GlobalAuthClass.authenticate,AdminController.forgotpassword)
-
 router.post('/change-password',GlobalAuthClass.authenticate,AdminController.changepassword)
 
 /* admin category CRUD  api */
@@ -52,7 +51,7 @@ router.post('/product-list', ProductController.productlist)
 /* admin order list  api */
 router.post('/order-list', OrderController.orderlist)
 /* admin order detail  api */
-router.post('/order-detail', OrderController.orderdetail)
+router.post('/order-detail',GlobalAuthClass.authenticate, OrderController.orderdetail)
 
 /* admin coupon CRUD  api */
 router.post('/add-coupan', CoupanController.addcoupan)

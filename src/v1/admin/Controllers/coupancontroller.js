@@ -4,7 +4,7 @@ const Validator = require('../middleware/validation')
 class CoupanController {
   async addcoupan(req, res) {
     try {
-      await Validator.addcoupanValidation(req.body)
+     // await Validator.addcoupanValidation(req.body)
       var data = await CoupanService.addcoupan(req.body)
       return responseHelper.success(data, 'coupan added successfully', res)
     } catch (error) {
@@ -13,7 +13,7 @@ class CoupanController {
   }
   async updatecoupan(req, res) {
     try {
-      await Validator.updatecoupanValidation(req.body)
+     // await Validator.updatecoupanValidation(req.body)
       var data = await CoupanService.updatecoupan(req.body)
       return responseHelper.success(data, 'coupan updated successfully', res)
     } catch (error) {

@@ -9,7 +9,6 @@ module.exports = (mongoose) => {
       type: Schema.Types.ObjectId,
       default: new ObjectId()
     },
-   
     coupanname: {
       type: String,
       required: false,

@@ -13,8 +13,8 @@ const { deleteModel } = require('mongoose')
 
 class UserService {
   async sendotp(body) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         let { mobilenumber } = body
         var otp = Math.floor(1000 + Math.random() * 9000);
         var user = await User.find({ mobilenumber: mobilenumber })
@@ -28,14 +28,15 @@ class UserService {
           }
         }
         resolve(otp)
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+    
   }
   async login(body) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         let { mobilenumber, otp } = body
         var mn = await User.find({ mobilenumber: mobilenumber })
         // console.log("mn======>", mn)
@@ -52,15 +53,16 @@ class UserService {
           var err = Error("invalid mobile number")
           reject(err)
         }
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+    
   }
   async update(body, mobilenumber) {
-    try {
       let { firstname, lastname, email } = body
       return new Promise(async (resolve, reject) => {
+        try {
         var emailcheck = await User.find({ email: email })
         for (let i = 0; i < emailcheck.length; i++) {
           if (emailcheck[i].email == email && emailcheck[i].mobilenumber == mobilenumber) {
@@ -84,15 +86,16 @@ class UserService {
             reject(error);
           }
         }
+      } catch (error) {
+        var err = { message: error.message }
+        return reject(err)
+      }
       })
-    } catch (error) {
-      var err = { message: error.message }
-      return reject(err)
-    }
+   
   }
   async category(res) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         const category = await Category.aggregate([
           {
             $lookup:
@@ -106,15 +109,16 @@ class UserService {
         ])
         console.log("category===========>", category)
         resolve(category);
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+   
   }
   async resendotp(body) {
     let { mobilenumber } = body
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         var data = await User.find({ mobilenumber: mobilenumber, is_registered: '1' })
         console.log("data============>", data)
         if (data.length > 0) {
@@ -126,14 +130,15 @@ class UserService {
           var err = Error("please register mobile number")
           return reject(err);
         }
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+   
   }
   async product(body) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         let { subcategory_id } = body
         var subcategory = await Subcategory.find({ subcategory_id: subcategory_id })
         if (subcategory.length > 0) {
@@ -141,14 +146,15 @@ class UserService {
           var brands = await Brand.find({ subcategory_id: subcategory_id })
           return resolve({ product_list: products, brand_list: brands });
         }
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+   
   }
   async search(body) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         let { search } = body
         var searching = search.trim()
         // if ('filter' in body) {
@@ -157,14 +163,13 @@ class UserService {
         var data1 = await Product.aggregate([{ $match: { productname: new RegExp(searching) } }])
         resolve(data1)
         console.log("data1=========>", data1)
-       
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+   
   }
   async filterBy(filter, brand_id) {
-
     if ('brands' in filter) {
       let brandIds = filter.brands.toString();
 
@@ -216,12 +221,12 @@ class UserService {
     //return { whereCondition: whereCondition, orderBy: orderBy }
   }
   async addtocart(body, user_id) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         let { product_id, quantity } = body
         var data = await Addcart.find({ product_id: product_id, user_id: user_id })
         if (data.length > 0) {
-          var data1 = await Addcart.updateOne({ product_id: product_id, user_id: user_id }, { $set: { quantity: quantity } })
+          var data1 = await Addcart.updateOne({ product_id: product_id, user_id: user_id }, { $set: { quantity: quantity + quantity } })
           resolve(data1[0])
         } else {
           var check = await Product.find({ product_id: product_id })
@@ -238,14 +243,15 @@ class UserService {
             reject(err)
           }
         }
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+  
   }
   async deletecartproduct(body, user_id) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         let { product_id } = body
         var data = await Addcart.find({ product_id: product_id })
         if (data.length > 0) {
@@ -257,14 +263,15 @@ class UserService {
           var err = { message: "product id not found please enter valid product id" }
           reject(err)
         }
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+     })
+   
   }
   async wishlist(body, user_id) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         let { product_id } = body
         var product = await Product.find({ product_id: product_id })
         if (product.length > 0) {
@@ -291,14 +298,14 @@ class UserService {
           var err = { message: "product id not found please enter valid product id" }
           reject(err)
         }
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
   }
   async getwishlist(body, user_id) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         const fetch = await Wishlist.aggregate([
           { $match: { user_id: mongoose.Types.ObjectId(user_id) } },
           {
@@ -322,36 +329,39 @@ class UserService {
         if (result) {
           return resolve(result)
         }
-      })
-    } catch (error) {
-      return promise.reject(error)
-    }
+      } catch (error) {
+        return promise.reject(error)
+      }
+    })
+    
   }
   async brandsfilter(body) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         var data = await Brand.find({})
         resolve(data)
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+   
   }
   async brandsearch(body) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         let { search } = body
         var searching = search.trim()
         var data = await Brand.find({ name: { $regex: searching } })
         resolve(data)
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+   
   }
   async discount() {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         var discount = {
           1: "upto 5%",
           2: "5% - 10%",
@@ -360,14 +370,15 @@ class UserService {
           5: "morthan 25%"
         }
         return resolve(discount);
-      })
-    } catch (error) {
-      return reject(error);
-    }
+      } catch (error) {
+        return reject(error);
+      }
+     })
+    
   }
   async sortby() {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         var sortby = {
           1: "popularity",
           2: "Price-Low to High",
@@ -378,14 +389,14 @@ class UserService {
           7: "%off-High to Low"
         }
         return resolve(sortby);
-      })
-    } catch (error) {
-      return reject(error);
-    }
+      } catch (error) {
+        return reject(error);
+      }
+    })
   }
   async pricerange(body) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         var data = await Product.aggregate([
           {
             "$group": {
@@ -396,14 +407,15 @@ class UserService {
           }
         ])
         return resolve(data)
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+   })
+    
   }
   async addaddress(body, user_id) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         let { type, home_details, landmark, recipient_name } = body
         var data = await Address.find({ user_id: user_id, type: type })
         if (!data.length > 0) {
@@ -415,14 +427,15 @@ class UserService {
           var err = { message: "user alredy insert address" }
           return reject(err)
         }
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+    
   }
   async deleteaddress(body, user_id) {
-    try {
       return new Promise(async (resolve, rejeect) => {
+        try {
         let { address_id } = body
         var data = await Address.find({ user_id: user_id, address_id: address_id })
         console.log("data========>", data)
@@ -435,20 +448,22 @@ class UserService {
           var err = { message: "id not found please enter a valid id" }
           return resolve(err)
         }
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+   
   }
   async addresslist(body, user_id) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         var data = await Address.find({ user_id: user_id })
         resolve(data)
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+   
   }
   async homepage() {
     return new Promise(async (resolve, reject) => {
@@ -670,8 +685,8 @@ class UserService {
     })
   }
   async cartlist(body, user_id) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         let { product_id, quantity } = body
         if ('quantity' && 'product_id' in body) {
           var data = await Addcart.updateOne({ user_id: user_id, product_id: product_id }, { $inc: { quantity: quantity, "metrics.orders": 1 } })
@@ -698,10 +713,11 @@ class UserService {
         let result = fetch.map(({ add_to_cart }) => add_to_cart[0])
         let finalcart = await this.finalcart(user_id, body)
         resolve(result.concat(finalcart))
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+     })
+   
   }
   async finalcart(user_id, body) {
     let { coupan_id } = body
@@ -830,8 +846,8 @@ class UserService {
     return cart;
   }
   async checkout(body, user_id) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         let { address_id, coupan_id } = body
         var address = await Address.find({ user_id: user_id, address_id: address_id })
         var cod = "CASH ON DELIEVERY"
@@ -924,14 +940,15 @@ class UserService {
           delieverytype: cod
         }
         return resolve(cartlist)
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+  
   }
   async orderlist(body, user_id) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         var data = await Address.aggregate([
           { $match: { user_id: mongoose.Types.ObjectId(user_id) } },
           {
@@ -969,15 +986,16 @@ class UserService {
         ])
         console.log("data==============>", data)
         resolve(data)
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+  
   }
 
   async orderdetail(body, user_id) {
-    try {
       return new Promise(async (resolve, reject) => {
+        try {
         let { _id } = body
         var data = await Address.aggregate([
           { $match: { user_id: mongoose.Types.ObjectId(user_id) } },
@@ -1057,15 +1075,15 @@ class UserService {
         console.log("bill=================>", bill)
         data[0].bill_details = bill
         resolve(data)
+      } catch (error) {
+        return reject(error)
+      }
       })
-    } catch (error) {
-      return reject(error)
     }
-  }
 
   async addreview (body,user_id){
-    try{
       return new Promise(async(resolve,reject)=>{
+        try{
         let {product_id,review_star} = body
         var user= await User.find({user_id:user_id})
         if(user.length>0){
@@ -1078,14 +1096,11 @@ class UserService {
             resolve (error)
           }
         }
-        
-
-      })
-
-    }catch(error){
-      return reject(error)
-
-    }
+      }catch(error){
+        return reject(error)
+  
+      }
+    })
   }
 
 }

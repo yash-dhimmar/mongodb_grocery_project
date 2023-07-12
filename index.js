@@ -1,4 +1,3 @@
-
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -88,8 +87,6 @@ app.use((err, req, res, next) => {
         code: res.statusCode
     });
 });
-
-
 const database = new Database();
 const server = new App({
     app,

@@ -18,21 +18,30 @@ class SettingService {
     }
   }
   async updatesetting(body) {
-    try {
-      return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      try {
         let { setting_id, free_delivery_upto, delivery_charge, tax } = body
-        var data = await Setting.updateOne({ setting_id: setting_id }, {
-          $set: {
-            free_delivery_upto: free_delivery_upto,
-            delivery_charge: delivery_charge,
-            tax: tax
-          }
+        var detail = await Setting.findOne({
+          setting_id: setting_id
         })
-        resolve()
-      })
-    } catch (error) {
-      return reject(error)
-    }
+        if (detail) {
+          var data = await Setting.updateOne({ setting_id: setting_id }, {
+            $set: {
+              free_delivery_upto: free_delivery_upto,
+              delivery_charge: delivery_charge,
+              tax: tax
+            }
+          })
+          resolve()
+        }else {
+          var error = { message: "setting_id not found please enter a valid setting_id" }
+          reject(error)
+        }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+
   }
 
 }

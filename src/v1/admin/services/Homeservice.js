@@ -3,41 +3,45 @@ const path = require('path')
 
 class Homeservice {
   async addslider(req) {
-    try {
-      return new Promise(async (resolve, reject) => {
-
+    return new Promise(async (resolve, reject) => {
+      try {
         var data = await Section_Slider.create({
           image: req.file.filename,
           category_id: req.body.category_id,
           section_id: req.body.section_id
-
         })
         console.log("data==========>", data)
         resolve(data)
+      } catch (error) {
+        return reject(error)
+      }
+    })
 
-      })
-    } catch (error) {
-      return reject(error)
-    }
   }
   async sliderdeleteproduct(body) {
-    try {
-      return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      try {
         let { slider_id } = body
-        var data = await Section_Slider.deleteOne({ slider_id: slider_id })
-        if (data) {
+        var detail = await Section_Slider.findOne({
+          slider_id: slider_id
+        })
+        if (detail) {
+          var data = await Section_Slider.deleteOne({ slider_id: slider_id })
           resolve()
+        } else {
+          var error = { message: "slider id not found plz enter valid id" }
+          reject(error)
         }
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+
   }
   async sliderlist(body) {
-    try {
-      return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      try {
         var slider = await Section_Slider.aggregate([
-
           {
             $lookup:
             {
@@ -66,42 +70,51 @@ class Homeservice {
           },
         ])
         resolve(slider)
+      } catch (error) {
+        return reject(error)
+      }
 
-      })
-    } catch (error) {
-      return reject(error)
-    }
+    })
+
   }
   async productslider(body) {
-    try {
-      return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      try {
         let { section_id, product_id } = body
         var data = await Section_Product.create({
           section_id: section_id,
           product_id: product_id
         })
         resolve(data)
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+
   }
   async deletesliderproductsection(body) {
-    try {
-      return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      try {
         let { section_product_id } = body
-        var data = await Section_Product.deleteOne({ section_product_id: section_product_id })
-        if (data) {
+        var detail = await Section_Product.findOne({
+          section_product_id: section_product_id
+        })
+        if (detail) {
+          var data = await Section_Product.deleteOne({ section_product_id: section_product_id })
           resolve()
+        } else {
+          var error = { message: "section_product_id not found plz enter valid id" }
+          reject(error)
         }
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+
   }
   async productsectionlist(body) {
-    try {
-      return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      try {
         var user = await Section_Product.aggregate([
 
           {
@@ -136,43 +149,51 @@ class Homeservice {
           },
         ])
         resolve(user)
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+
   }
   async addbrandslider(body) {
-    try {
-      return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      try {
         let { section_id, brand_id } = body
         var data = await Section_Brand.create({
           section_id: section_id,
           brand_id: brand_id
         })
         resolve(data)
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+
   }
   async deletesliderbrandsection(body) {
-    try {
-      return new Promise(async (resolve, reject) => {
-        let { section_brand_id } = body
-        var data = await Section_Brand.deleteOne({ section_brand_id: section_brand_id })
-        if (data) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let { section_product_id } = body
+        var detail = await Section_Product.findOne({
+          section_product_id: section_product_id
+        })
+        if (detail) {
+          var data = await Section_Brand.deleteOne({ section_brand_id: section_brand_id })
           resolve()
+        } else {
+          var error = { message: "section_brand_id not found plz enter valid id" }
+          reject(error)
         }
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+
   }
   async brandsectionlist(body) {
-    try {
-      return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      try {
         var brand = await Section_Brand.aggregate([
-
           {
             $lookup:
             {
@@ -207,15 +228,15 @@ class Homeservice {
           },
         ])
         resolve(brand)
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+
   }
   async addcategoryslider(req) {
-    try {
-      return new Promise(async (resolve, reject) => {
-
+    return new Promise(async (resolve, reject) => {
+      try {
         var data = await Section_Category.create({
           category_id: req.body.category_id,
           section_id: req.body.section_id,
@@ -223,27 +244,35 @@ class Homeservice {
         })
         console.log("data==========>", data)
         resolve(data)
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+
   }
   async deleteslidercategorysection(body) {
-    try {
-      return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      try {
         let { section_category_id } = body
-        var data = await Section_Category.deleteOne({ section_category_id: section_category_id })
-        if (data) {
+        var detail = await Section_Category.findOne({
+          section_category_id: section_category_id
+        })
+        if (detail) {
+          var data = await Section_Category.deleteOne({ section_category_id: section_category_id })
           resolve()
+        } else {
+          var error = { message: "section_category_id not found plz enter valid id" }
+          reject(error)
         }
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+
   }
   async categorysectionlist(body) {
-    try {
-      return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      try {
         var category = await Section_Category.aggregate([
           {
             $lookup:
@@ -273,10 +302,10 @@ class Homeservice {
           },
         ])
         resolve(category)
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
   }
 
 

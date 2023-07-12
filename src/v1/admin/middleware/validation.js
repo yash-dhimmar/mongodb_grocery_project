@@ -154,7 +154,8 @@ class Validator {
         coupan_id: Joi.string().required(),
         coupanname: Joi.string().required(),
         coupancode: Joi.string().required(),
-        min_price: Joi.required(),
+        min_price: Joi.string().required(),
+        discount_price:Joi.string().required(),
         start_date: Joi.string().required(),
         end_date: Joi.string().required(),
       })

@@ -3,8 +3,8 @@ const path = require('path')
 
 class BrandService {
   async insertbrand(req) {
-    try {
-      return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      try {
         var data = await Brand.create({
           image: req.file.filename,
           name: req.body.name,
@@ -15,54 +15,65 @@ class BrandService {
         if (data) {
           return resolve(data)
         }
+      } catch (error) {
+        return reject(error)
+      }
 
-      })
-    } catch (error) {
-      return reject(error)
-    }
+    })
+
   }
   async updatebrand(req) {
-    try {
-      return new Promise(async (resolve, reject) => {
-        // let {category_id,category_name,image}= body
-        var data = await Brand.updateOne({ brand_id: req.body.brand_id }, { $set: { name: req.body.name, image: req.file.filename } })
-        if (data) {
-          return resolve()
-        } else {
-          var error = { message: "category id not found please enter a valid category_id" }
-          resolve(error)
-        }
-      })
-    } catch (error) {
-      return reject(error)
-    }
-  }
-  async branddelete(body) {
-    try {
-      return new Promise(async (resolve, reject) => {
-        let { brand_id } = body
-        var data = await Brand.deleteOne({ brand_id: brand_id })
-        console.log("data================>", data)
-        if (data.length > 0) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let { brand_id, name, image } = req.body
+        var detail = await Brand.findOne({
+          brand: brand_id
+        })
+        if (detail.length > 0) {
+          var data = await Brand.updateOne({ brand_id: brand_id }, { $set: { name: name, image: req.file.filename } })
           return resolve()
         } else {
           var error = { message: "brand id not found please enter a valid brand_id" }
           reject(error)
         }
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+
+  }
+  async branddelete(body) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let { brand_id } = body
+        var detail = await Brand.findOne({
+          brand: brand_id
+        })
+        if (detail.length > 0) {
+          var data = await Brand.deleteOne({ brand_id: brand_id })
+          console.log("data================>", data)
+
+          return resolve()
+        } else {
+          var error = { message: "brand id not found please enter a valid brand_id" }
+          reject(error)
+        }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+
   }
   async brandlist(body) {
-    try {
-      return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      try {
         var data = await Brand.find({})
         resolve(data)
-      })
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+
   }
 
 

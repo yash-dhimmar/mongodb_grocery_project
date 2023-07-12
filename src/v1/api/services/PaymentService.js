@@ -2,7 +2,7 @@ const { STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY } = process.env;
 const stripe = require('stripe')(STRIPE_SECRET_KEY)
 const { User, Category, Subcategory, Add_card, Charges, Brand, Product, Review, Addcart, Orders, Order_item, Wishlist, Address, Setting, Coupan_management, Section, Section_Slider, Section_Product, conn, UserDeviceToken } = require('../../../data/models/index')
 class PaymentService {
-  async createcustomer(body, firstname, lastname, email, user_id) {
+  async createcustomer(body,user_id) {
     return new Promise(async (resolve, reject) => {
       try {
         var data = await User.findOne({
@@ -10,8 +10,8 @@ class PaymentService {
         })
         if (data) {
           var customer = await stripe.customers.create({
-            name: firstname.concat(lastname),
-            email: email
+            name: data.firstname+""+data.lastname,
+            email: data.email
           })
         }
         resolve(customer)
@@ -76,7 +76,7 @@ class PaymentService {
             currency: "INR"
           })
         }
-        console.log("data2===========>", data2)
+        //console.log("data2===========>", data2)
         var charge = await Charges.create({
           user_id: user_id,
           amount: amount,

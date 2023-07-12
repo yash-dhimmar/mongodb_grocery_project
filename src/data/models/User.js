@@ -9,7 +9,6 @@ module.exports = (mongoose) => {
             type: Schema.Types.ObjectId,
             default:new ObjectId()
         },
-      
         firstname: {
             type: String,
             required: false,
@@ -34,7 +33,6 @@ module.exports = (mongoose) => {
             type: String,
             required: false,        
             default:"",
-          
         },
         auth_token: {
             type: String,

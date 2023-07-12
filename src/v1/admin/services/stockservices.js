@@ -4,23 +4,24 @@ const { reject } = require('bluebird')
 
 class StockServices {
   async stockmanagement(body) {
-    try {
-      return new Promise(async (resolve, reject) => {
-        let {category_id,subcategory_id,brand_id} =body
-        var products = await Product.find({ category_id: category_id, subcategory_id:subcategory_id,brand_id:brand_id},
+    return new Promise(async (resolve, reject) => {
+      try {
+        let { category_id, subcategory_id, brand_id } = body
+        var products = await Product.find({ category_id: category_id, subcategory_id: subcategory_id, brand_id: brand_id },
           {
             "productname": 1,
             variation: 1,
             price: 1
           })
         console.log("bill=================>", products)
-        
+
         resolve(products)
-      })
-      
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    })
+
+
   }
 
 }

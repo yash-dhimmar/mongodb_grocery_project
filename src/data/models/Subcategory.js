@@ -7,7 +7,6 @@ function image(image){
   return 'http://localhost:4444/uploads/' + image
 }
 
-
 module.exports = (mongoose) => {
   const SubcategorySchema = new Schema({
     subcategory_id: {

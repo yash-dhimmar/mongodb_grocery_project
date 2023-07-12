@@ -21,8 +21,8 @@ class ProductController{
   }
   async productdelete(req,res){
     try{
-      await Validator.deleteproductValidation(req.body);
-      var data = await AdminService.productdelete(req.body);
+     // await Validator.deleteproductValidation(req.body);
+      var data = await AdminService.productdelete(req);
       return responseHelper.success(data,'product deleted  successfully',res)
     }catch(error){
       return responseHelper.error(error,res)
